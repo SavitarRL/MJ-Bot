@@ -1,11 +1,65 @@
+import random
+
+
 ###########
 ## Classes
 ###########
 
 
+class Game:
+    def __init__(self):
+        self.players = [Player("E"),Player("S"),Player("W"),Player("N")]
+        self.played_tiles = {} ## dict or list???
+        self.drawable_tiles = {}
+        ## can add more stuff
+    
+    def reset(self):
+        ## empty player_tiles, put all into drawable, shuffle
+        pass
+
+    def pick_tile(self):
+        ## returns a random/top tile from derawable
+        ## use this in deal
+        pass
+
+    def deal(self):
+        ## deals tiles to 4 players
+        pass
+    
+    
+    def __str__(self):
+        bigstring = ""
+        for player in self.players:
+            bigstring += str(player)
+            bigstring += "\n"
+        return bigstring
+
+
+
+
+
+class Player:
+    def __init__(self,wind):
+        self.hand = Hand()
+        self.wind = wind
+
+        
+    def draw(self):
+        # should add to self.hand
+        pass
+
+    def discard(self):
+        # should remove from self.hand
+        pass
+    
+    def __str__(self):
+        return self.wind + "\n" + str(self.hand)
+
+
+
 class Hand:
     def __init__(self):
-        self.tiles = [Tile("circle",3),Tile("words", 4)]
+        self.tiles = []
 
     def add_tile(self,tile):
         ## add tile to self.tiles
@@ -24,9 +78,9 @@ class Hand:
         count = 0
         for tile in self.tiles:
             idx_string += "  {}  |".format(count)
-            tempstring = str(tile).ljust(5, " ")
-            tile_string += "{}|".format(tempstring)
-        return idxstring + "\n" + tile_string
+            tile_string += "{:^5}|".format(str(tile))
+            count+=1
+        return idx_string + "\n" + tile_string
     
 
 
@@ -72,7 +126,7 @@ class Tile:
         if self.type == "words":
             return self.word_dict[self.value]
         else:
-            return "{} {}".format(self.value, self.type[0])
+            return "{}{}".format(self.value, self.type[0])
 
 
     
