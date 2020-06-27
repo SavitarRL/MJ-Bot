@@ -127,8 +127,7 @@ class Tile:
         if self.type == "words":
             return self.word_dict[self.value]
         else:
-<<<<<<< HEAD
-            return "{} {}".format(self.value, self.type)
+            return "{}{}".format(self.value, self.type)
 
     
     def isDirection(self):
@@ -144,9 +143,6 @@ class Tile:
         else:
             return False
 
-=======
-            return "{}{}".format(self.value, self.type[0])
->>>>>>> 7e9ea8d4c1d85b1344e030334b7fc0f0ce54f88c
 
 
     
