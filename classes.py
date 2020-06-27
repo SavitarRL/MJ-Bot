@@ -22,7 +22,7 @@ class Tile:
             words: 1:east, 2:south, 3:west, 4:north, 5:middle, 6:fat, 7:white
         """
 
-        super().__init__()
+        super().__init__() #inherit
         if type not in ["stick", "circle", "million", "words"]:
             raise Exception("No such Mahjong type, got {}".format(self.type))
         self.type = type
@@ -41,6 +41,20 @@ class Tile:
             return self.word_dict[self.value]
         else:
             return "{} {}".format(self.value, self.type)
+
+    
+    def isDirection(self):
+        if self.type == "words":
+            if self.value < 5:
+                return True  
+        return False
+    
+    
+    def __eq__(self, other):
+        if self.type == other.type and self.value == other.value:
+            return True
+        else:
+            return False
 
 
 
