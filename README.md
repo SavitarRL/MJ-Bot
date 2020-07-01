@@ -1,4 +1,4 @@
 # MJ-Bot
 helo world
 neidou ong99
-erereerererererreeeeeeeeeeeeeeeeee
+1. distribute tiles randomly to 4 players while tracking diff tiles
