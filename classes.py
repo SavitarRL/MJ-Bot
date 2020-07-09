@@ -8,19 +8,18 @@ import random
 class Game:
     def __init__(self):
         self.players = [Player("E"),Player("S"),Player("W"),Player("N")]
-        self.played_tiles = {} 
-        ## dict or list??? sld be dict {"tile",number of played tiles(0)}
-        ## 
-        self.drawable_tiles = {} ## {"tile", number of tiles(136)}
         ## can add more stuff 
-        ## 
+        
+        self.drawable_tiles = {} ## {"tile", number of tiles(136)}
+        
 
         ## when drawing from drawable_tiles to player_tiles: --> drawable_tile - 1; player_tiles + 1
         ## when player_discard: --> player_tiles - 1; played_tiles + 1
         
         ### drawable_tiles + played_tiles = 136
-        
-    def distribute(self):
+        self.played_tiles = {} 
+        ## dict or list??? sld be dict {"tile",number of played tiles(0)}
+        ## use list coz more direct 
 
     def reset(self):
         ## empty player_tiles, put all into drawable, shuffle
@@ -31,7 +30,7 @@ class Game:
         ## use this in deal
         pass
 
-    def deal(self):
+    def deal(self): #distributing tiles
         ## deals tiles to 4 players
         pass
 
@@ -45,7 +44,29 @@ class Game:
             bigstring += "\n"
         return bigstring
 
+class MyThing: #hash objects if use dict
 
+    def __init__(self,,location,length):
+        self.name = name
+        self.location = location
+        self.length = length
+ 
+    def __hash__(self):
+        return hash((self.name, self.location))
+
+    def __eq__(self, other):
+        return (self.name, self.location) == (other.name, other.location)
+
+    def __ne__(self, other):
+        # Not strictly necessary, but to avoid having both x==y and x!=y
+        # True at the same time
+        return not(self == other)
+
+
+class PlayerAction: #??
+    def __init__(self):
+        self.hand = Hand()
+        self
 
 
 
@@ -55,16 +76,15 @@ class Player:
         self.wind = wind
 
 
-    def draw(self):  #should add to self.hand
+    def draw(self, tile):  #should add to self.hand 
         self.hand.add_tile(tile)
-        pass
 
-    def discard(self): # should remove from self.hand
-        self.hand.remove_tile(idx)
-        pass
+    def discard(self, idx): # should remove from self.hand
+        return self.hand.remove_tile(idx)
     
     def __str__(self):
         return self.wind + "\n" + str(self.hand)
+    
 
 
 
@@ -74,18 +94,12 @@ class Hand:
 
     def add_tile(self,tile): ## add tile to self.tiles
         self.tiles.append(tile)
-        pass
 
     def remove_tile(self,idx): ## removes tile at idx from self.tiles
-        self.tile.remove(tile)
-        pass
+        return self.tile.pop(idx)
 
     def num_tiles(self): ##return number of tiles in hand
-        num_count = 0
-        for tile in self.tiles:
-            num_count +=1
-        return num_count
-        pass
+        return len(self.tiles)
 
 
     def __str__(self):
