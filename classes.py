@@ -7,7 +7,7 @@ import random
 
 class Game:
     def __init__(self):
-        self.players = [Player("E"),Player("S"),Player("W"),Player("N")]
+        self.players = {"E":Player("E"),"S":Player("S"),"W":Player("W"),"N":Player("N")}
         ## can add more stuff 
         
         self.drawable_tiles = {} ## {"tile", number of tiles(136)}
@@ -30,43 +30,50 @@ class Game:
         ## use this in deal
         pass
 
-    def deal(self): #distributing tiles
-        ## deals tiles to 4 players
+    def deal(self,starting_wind): #distributing tiles
+        ## deals tiles to 4 players (starting wind has 14, other 13)
         pass
 
-    def player_discard(self): 
+    def player_discard(self, player_wind, idx): 
+        pass
+
+    def player_draw(self,player_wind):
+        ## player draws a tile
+        pass
     
+    def num_tiles_left(self): ## give number of tiles ***drawable*** left
+        pass
     
     def __str__(self):
         bigstring = ""
-        for player in self.players:
+        for player in self.players.values():
             bigstring += str(player)
             bigstring += "\n"
         return bigstring
 
-class MyThing: #hash objects if use dict
+# class MyThing: #hash objects if use dict
 
-    def __init__(self,,location,length):
-        self.name = name
-        self.location = location
-        self.length = length
+#     def __init__(self,,location,length):
+#         self.name = name
+#         self.location = location
+#         self.length = length
  
-    def __hash__(self):
-        return hash((self.name, self.location))
+#     def __hash__(self):
+#         return hash((self.name, self.location))
 
-    def __eq__(self, other):
-        return (self.name, self.location) == (other.name, other.location)
+#     def __eq__(self, other):
+#         return (self.name, self.location) == (other.name, other.location)
 
-    def __ne__(self, other):
-        # Not strictly necessary, but to avoid having both x==y and x!=y
-        # True at the same time
-        return not(self == other)
+#     def __ne__(self, other):
+#         # Not strictly necessary, but to avoid having both x==y and x!=y
+#         # True at the same time
+#         return not(self == other)
 
 
-class PlayerAction: #??
-    def __init__(self):
-        self.hand = Hand()
-        self
+# class PlayerAction: #??
+#     def __init__(self):
+#         self.hand = Hand()
+#         self
 
 
 
