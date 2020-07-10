@@ -10,16 +10,39 @@ class Game:
         self.players = {"E":Player("E"),"S":Player("S"),"W":Player("W"),"N":Player("N")}
         ## can add more stuff 
         
-        self.drawable_tiles = {} ## {"tile", number of tiles(136)}
+        self.stick_tiles =[]
+        for value in range(1,10):
+            for num_stick in range(4):
+                self.stick_tiles.append(Tile('s', value))
         
+        self.circle_tiles =[]
+        for value in range(1,10):
+            for num_circle in range(4):
+                self.stick_tiles.append(Tile('c', value))
+        
+        self.million_tiles =[]
+        for value in range(1,10):
+            for num_mil in range(4):
+                self.stick_tiles.append(Tile('m', value))
+        
+        
+        self.word_tiles =[]
+        for value in range(1,8):
+            for num_word in range(4):
+                self.stick_tiles.append(Tile('w', value))
 
+        self.drawable_tiles = self.stick_tiles + self.circle_tiles + self.million_tiles +self.word_tiles
+
+        ## {"tile", number of tiles(136)}
         ## when drawing from drawable_tiles to player_tiles: --> drawable_tile - 1; player_tiles + 1
         ## when player_discard: --> player_tiles - 1; played_tiles + 1
-        
         ### drawable_tiles + played_tiles = 136
-        self.played_tiles = {} 
+
+        self.played_tiles = []
         ## dict or list??? sld be dict {"tile",number of played tiles(0)}
         ## use list coz more direct 
+
+
 
     def reset(self):
         ## empty player_tiles, put all into drawable, shuffle
@@ -32,9 +55,11 @@ class Game:
 
     def deal(self,starting_wind): #distributing tiles
         ## deals tiles to 4 players (starting wind has 14, other 13)
+        ## if start wind 
         pass
 
     def player_discard(self, player_wind, idx): 
+
         pass
 
     def player_draw(self,player_wind):
@@ -42,8 +67,9 @@ class Game:
         pass
     
     def num_tiles_left(self): ## give number of tiles ***drawable*** left
-        pass
-    
+        return len(self.drawable_tiles)
+
+
     def __str__(self):
         bigstring = ""
         for player in self.players.values():
@@ -89,6 +115,9 @@ class Player:
     def discard(self, idx): # should remove from self.hand
         return self.hand.remove_tile(idx)
     
+    def isDealer(self): #dice and wind
+        pass
+
     def __str__(self):
         return self.wind + "\n" + str(self.hand)
     

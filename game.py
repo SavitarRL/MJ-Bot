@@ -11,7 +11,7 @@ if __name__ == "__main__":
     game = Game()
     print("initial state")
     print(game)
-    assert (all(player.hand.num_tiles()==0 for player in game.players)), "players don't start with empty hand"
+    assert (all(player.hand.num_tiles()==0 for player in game.players.values())), "players don't start with empty hand"
     assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
     print("pass init")
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     game.reset()
     print(game)
-    assert (all(player.hand.num_tiles()==0 for player in game.players)), "players don't start with empty hand"
+    assert (all(player.hand.num_tiles()==0 for player in game.players.values())), "players don't start with empty hand"
     assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
     print("pass reset")
 
