@@ -39,32 +39,44 @@ class Game:
         ### drawable_tiles + played_tiles = 136
 
         self.played_tiles = []
+
         ## dict or list??? sld be dict {"tile",number of played tiles(0)}
         ## use list coz more direct 
 
 
 
     def reset(self):
-        ## empty player_tiles, put all into drawable, shuffle
+        ## empty player_tiles, put all into drawable
         pass
 
     def pick_tile(self):
+        picked_tile = random.choice(self.drawable_tiles)
+        return picked_tile
         ## returns a random/top tile from derawable
         ## use this in deal
-        pass
 
     def deal(self,starting_wind): #distributing tiles
         ## deals tiles to 4 players (starting wind has 14, other 13)
-        ## if start wind 
-        pass
+        ## if start wind i.e. player at startingwind => 14, else 13
+        for i in self.players.values():
+            if i.wind == starting_wind:
+                for tiles_dis in range(14):
+                    self.player_draw(starting_wind)
+            else:
+                for tiles_dis in range(13):
+                    self.player_draw(i.wind)
 
+    ## define starting_wind
     def player_discard(self, player_wind, idx): 
-
+        return 
         pass
 
     def player_draw(self,player_wind):
-        ## player draws a tile
-        pass
+        picked_tile = self.pick_tile()
+        self.drawable_tiles.remove(picked_tile)
+        self.players[player_wind].draw(picked_tile)
+        ## player draws a tile from drawable tiles
+        ## return picked tile to that player only?
     
     def num_tiles_left(self): ## give number of tiles ***drawable*** left
         return len(self.drawable_tiles)
@@ -78,7 +90,6 @@ class Game:
         return bigstring
 
 # class MyThing: #hash objects if use dict
-
 #     def __init__(self,,location,length):
 #         self.name = name
 #         self.location = location
@@ -121,8 +132,6 @@ class Player:
     def __str__(self):
         return self.wind + "\n" + str(self.hand)
     
-
-
 
 class Hand:
     def __init__(self):

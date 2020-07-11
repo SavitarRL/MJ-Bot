@@ -80,7 +80,7 @@ def test_reset(show=False):
 
 
 if __name__ == "__main__":
-    pass
+    test_deal(True)
 ### call functions above to test put show=True to print
 
 
