@@ -42,6 +42,7 @@ class Game:
 
         ## dict or list??? sld be dict {"tile",number of played tiles(0)}
         ## use list coz more direct 
+        ## goi siusiu yeh la
 
 
 
