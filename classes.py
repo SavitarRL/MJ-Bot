@@ -154,7 +154,7 @@ class Hand:
     def __str__(self):
         idx_string = ""
         tile_string = ""
-        count = 1
+        count = 0
         for tile in self.tiles:
             idx_string += "{:^6}|".format(count)
             tile_string += "{:^6}|".format(str(tile))
