@@ -6,3 +6,4 @@ stuff i think i hav to do later, what do you think @maming?
 	#reaarange tiles after distribution
 	#add names to player, without 	
 	#add game points counter, combo list
+	#add endgame?
