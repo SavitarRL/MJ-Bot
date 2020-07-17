@@ -1,5 +1,7 @@
 from classes import *
 
+
+#test init
 def test_init(show=False):
     game = Game()
     if show:
@@ -8,6 +10,7 @@ def test_init(show=False):
     assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
     print("pass init")
 
+#test deal
 def test_deal(show=False):
     game = Game()
     ## test deal
@@ -20,6 +23,7 @@ def test_deal(show=False):
     assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
     print("pass deal")
 
+#test discard
 def test_discard(show=False):
     game = Game()
     ## test deal
@@ -43,6 +47,7 @@ def test_discard(show=False):
     assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
     print("pass discard")
 
+#test draw
 def test_draw(show=False):
     game = Game()
     ## test deal
@@ -61,6 +66,7 @@ def test_draw(show=False):
     assert (game.num_tiles_left()==82), "Reminaing tiles is not 82 tiles or num_tiles_left() not implemented"
     print("pass draw")
 
+#test reset
 def test_reset(show=False):
     game = Game()
     ## test deal
