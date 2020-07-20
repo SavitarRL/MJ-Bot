@@ -5,5 +5,6 @@ stuff i think i hav to do later, what do you think @maming?
 	#add flower/season conditions to classes hand, player and game
 	#reaarange tiles after distribution
 	#add names to player, without 	
+	#add points if flower corresponds to the wind
 	#add game points counter, combo list
 	#add endgame?
