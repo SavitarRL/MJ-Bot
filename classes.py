@@ -4,18 +4,14 @@ import random
 ## Classes
 ###########
 
-
 # class Combos:
-
-
+# class point counters:
 # class End:
 
 
 class Game:
     def __init__(self):
         self.players = {"E":Player("E"),"S":Player("S"),"W":Player("W"),"N":Player("N")}
-        ## can add more stuff 
-        
         ## creating list of total tiles
         self.stick_tiles =[]
         for value in range(1,10):
@@ -33,13 +29,20 @@ class Game:
         for value in range(1,8):
             for num_word in range(4):
                 self.stick_tiles.append(Tile('w', value))
+        #self.seas_tiles =[]
+        #for value in range(1,5):
+        #    self.seas_tiles.append(Tile("seas"), value)
+        
+        #self.fa_tiles =[]
+        #for value in range(1,5):
+        #    self.fa_tiles.append(Tile("fa"), value)
 
-        self.drawable_tiles = self.stick_tiles + self.circle_tiles + self.million_tiles +self.word_tiles
-
-        ## {"tile", number of tiles(136)}
-        ## when drawing from drawable_tiles to player_tiles: --> drawable_tile - 1; player_tiles + 1
-        ## when player_discard: --> player_tiles - 1; played_tiles + 1
-        ### drawable_tiles + played_tiles = 136
+        
+        self.drawable_tiles = self.stick_tiles + self.circle_tiles + self.million_tiles +self.word_tiles #+self.seas_tiles +self.fa_tiles
+                                                                            ## {"tile", number of tiles(136)}
+                                                                            ## when drawing from drawable_tiles to player_tiles: --> drawable_tile - 1; player_tiles + 1
+                                                                            ## when player_discard: --> player_tiles - 1; played_tiles + 1
+                                                                            ### drawable_tiles + played_tiles = 136
 
         self.played_tiles = []
 
@@ -71,6 +74,8 @@ class Game:
         ## use this in deal
 
     def isStarting_wind(self):
+        #if win => stay as dealer
+        #if lose => E -> S -> W -> N
         pass
 
     def deal(self,starting_wind): 
@@ -87,12 +92,21 @@ class Game:
     
     def player_draw(self,player_wind):
         picked_tile = self.pick_tile()
+        
         self.drawable_tiles.remove(picked_tile)
         self.players[player_wind].draw(picked_tile)
         ## player draws a tile from drawable tiles
         ## return picked tile to that player only?
 
-    ## define starting_wind ##rolling dice and shit
+
+        #if picked_tile.isFlower or picked_tile.isSeason:
+           #see if win pos = value of flower or season tile
+           #true then add points
+           
+
+    
+
+    ## define starting_wind ##rolling dice and shit?
     def player_discard(self, player_wind, idx): #adding to list of played_tiles
         tile_removed = Player.discard(idx)
         for tiles in self.drawable_tiles:
@@ -112,8 +126,7 @@ class Game:
             bigstring += str(player)
             bigstring += "\n"
         return bigstring
-
- 
+        
 
 class Player:
     def __init__(self,wind):
@@ -156,7 +169,7 @@ class Hand:
         tile_string = ""
         count = 0
         for tile in self.tiles:
-            idx_string += "{:^6}|".format(count)
+            idx_string += "{:^6}|".format(count+1)
             tile_string += "{:^6}|".format(str(tile))
             count+=1
         return idx_string + "\n" + tile_string
@@ -196,7 +209,7 @@ class Tile:
         if type != "w" and type != "fa":
             if value >9 or value <1:
                 raise Exception("Value not in range")
-        elif type == "fa" and type == "seas":
+        elif type == "fa" or type == "seas":
             if value >4 or value <1:
                 raise Exception("Value not in range")
         else:
