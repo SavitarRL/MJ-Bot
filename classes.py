@@ -51,9 +51,28 @@ class Game:
         ## goi siusiu yeh la
 
     def reset(self, player_wind, idx):
+        """
+        3 steps: empty hands, clear played tiles, refill drawable tiles
+        ##########
+        1. empty hands iterative  - ok 
+        for player in self.players.values():
+            for idx in range(len(i.hand.tiles)):
+                player.discard(idx)
+        smart way
+        for player in self.players.values():
+            player.hand.tiles = [] or use .clear
+        even smarter - make functions for empty hand
+
+        2. i recc save copy of all tiles as somthing, so can revert to it at any time. so self.alltiles = [(136tiles]]
+        so when reset u can do self.drawable_tiles = self.alltiles
+        3. ok
+
+
+        """
         for i in self.players.values():
             for idx in Hand.tiles:
                 self.player_discard(i, idx)
+        
         self.drawable_tiles.extend(self.played_tiles)
         self.played_tiles.clear()
 
