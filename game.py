@@ -86,7 +86,7 @@ def test_reset(show=False):
 
 
 if __name__ == "__main__":
-    test_deal(True)
+    test_reset()
 ### call functions above to test put show=True to print
 
 

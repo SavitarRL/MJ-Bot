@@ -37,7 +37,7 @@ class Game:
         #for value in range(1,5):
         #    self.fa_tiles.append(Tile("fa"), value)
 
-        
+        self.alltiles = self.stick_tiles + self.circle_tiles + self.million_tiles +self.word_tiles #+self.seas_tiles +self.fa_tiles
         self.drawable_tiles = self.stick_tiles + self.circle_tiles + self.million_tiles +self.word_tiles #+self.seas_tiles +self.fa_tiles
                                                                             ## {"tile", number of tiles(136)}
                                                                             ## when drawing from drawable_tiles to player_tiles: --> drawable_tile - 1; player_tiles + 1
@@ -66,15 +66,11 @@ class Game:
         2. i recc save copy of all tiles as somthing, so can revert to it at any time. so self.alltiles = [(136tiles]]
         so when reset u can do self.drawable_tiles = self.alltiles
         3. ok
-
-
         """
-        for i in self.players.values():
-            for idx in Hand.tiles:
-                self.player_discard(i, idx)
-        
-        self.drawable_tiles.extend(self.played_tiles)
+        Player.empty_hand()
         self.played_tiles.clear()
+        self.drawable_tiles = self.alltiles
+        
 
         ## idk how to do
         ## maming bb plz help :<
@@ -111,7 +107,6 @@ class Game:
     
     def player_draw(self,player_wind):
         picked_tile = self.pick_tile()
-        
         self.drawable_tiles.remove(picked_tile)
         self.players[player_wind].draw(picked_tile)
         ## player draws a tile from drawable tiles
@@ -158,6 +153,11 @@ class Player:
     def discard(self, idx): # should remove from self.hand
         return self.hand.remove_tile(idx)
     
+    def empty_hand(self, wind):
+        for player in Game.players.values():
+            self.hand.tiles.clear()
+
+
     def isDealer(self): #dice and wind "dice"
         dice_roll = random.randint(3, 18)
         for n in range (1,5):
