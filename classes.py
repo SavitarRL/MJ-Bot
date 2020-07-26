@@ -3,10 +3,17 @@ import random
 ###########
 ## Classes
 ###########
-
+# class run:
 # class Combos:
+
 # class point counters:
+## if combo fail => point = 0
+## if hav flowertile matching the 
+
 # class End:
+## show winner
+## show combo and its points
+## if someone wins => Game.reset
 
 
 class Game:
@@ -43,7 +50,6 @@ class Game:
                                                                             ## when drawing from drawable_tiles to player_tiles: --> drawable_tile - 1; player_tiles + 1
                                                                             ## when player_discard: --> player_tiles - 1; played_tiles + 1
                                                                             ### drawable_tiles + played_tiles = 136
-
         self.played_tiles = []
 
         ## dict or list??? sld be dict {"tile",number of played tiles(0)}
@@ -70,14 +76,7 @@ class Game:
         Player.empty_hand()
         self.played_tiles.clear()
         self.drawable_tiles = self.alltiles
-        
-
-        ## idk how to do
-        ## maming bb plz help :<
-
-        
-
-        
+    
         ## empty player_tiles and played tiles , and put all into drawable
         ## for each player hand of the player wind 
         ## empty all the players' tiles
@@ -117,13 +116,10 @@ class Game:
            #see if win pos = value of flower or season tile
            #true then add points
            
-
-    
-
     ## define starting_wind ##rolling dice and shit?
     def player_discard(self, player_wind, idx): #adding to list of played_tiles
-        tile_removed = Player.discard(idx)
-        for tiles in self.drawable_tiles:
+        tile_removed = Player.discard(idx) #TypeError: discard() missing 1 required positional argument: 'idx'
+        for tiles in self.drawable_tiles:   #some shit happened here, idk where wrong, plz help
             if tile_removed not in self.drawable_tiles:
                 self.played_tiles.append(tile_removed)
         return self.played_tiles
@@ -159,15 +155,33 @@ class Player:
 
 
     def isDealer(self): #dice and wind "dice"
-        dice_roll = random.randint(3, 18)
         for n in range (1,5):
-            if dice_roll == (4*n+1): ##(First game sits on east side)
+            if Dice.roll == (4*n+1): ##(First game sits on east side)
                 return True
             return False
+    
+    def starting_seat_number(self, wind):
+        if self.wind == "E":
+            return 1
+        elif self.wind == "S":
+            return 2
+        elif self.wind == "W":
+            return 3
+        elif self.wind == "N":
+            return 4
 
     def __str__(self):
-        return self.wind + "\n" + str(self.hand)
+        return self.wind + "("+str(self.starting_seat_number(self.wind)) + ")" + "\n" + str(self.hand)
     
+
+class Dice:
+    def __init__(self):
+        self.value = value
+
+    def roll(self):
+        return random.randint(3, 18)
+        
+
 
 class Hand:
     def __init__(self):
