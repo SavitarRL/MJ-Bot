@@ -3,18 +3,30 @@ import random
 ###########
 ## Classes
 ###########
+
 # class run:
-# class Combos:
+## the procedures of the game (4 circles, 4turns each)
+
+# class Combos: (need constant check)
+##list of all combos after rearranged
+
+# class actions: pong, sheung gong, eat
+## need somewhere to store and show "action"ed tiles
 
 # class point counters:
 ## if combo fail => point = 0
-## if hav flowertile matching the 
+## if hav flowertile matching the seat number => +1
+## if pong jor dragon tiles => +1
+## if pong jor wind tiles and is self wind => +2
+## count point according to the combo from combos
+## etcetc
 
 # class End:
 ## show winner
 ## show combo and its points
 ## if someone wins => Game.reset
 
+#in class Game: set to rearrange the tiles
 
 class Game:
     def __init__(self):
@@ -54,7 +66,6 @@ class Game:
 
         ## dict or list??? sld be dict {"tile",number of played tiles(0)}
         ## use list coz more direct 
-        ## goi siusiu yeh la
 
     def reset(self, player_wind, idx):
         """
@@ -91,7 +102,8 @@ class Game:
         #if win => stay as dealer
         #if lose => E -> S -> W -> N
         pass
-
+    def reaarange(self):
+        pass
     def deal(self,starting_wind): 
         ## deals tiles 
         ## if start wind i.e. player at startingwind => 14, else 13 (#go define player wind)
