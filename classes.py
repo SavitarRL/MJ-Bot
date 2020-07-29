@@ -67,7 +67,7 @@ class Game:
         ## dict or list??? sld be dict {"tile",number of played tiles(0)}
         ## use list coz more direct 
 
-    def reset(self, player_wind, idx):
+    def reset(self,player_wind):
         """
         3 steps: empty hands, clear played tiles, refill drawable tiles
         ##########
@@ -84,7 +84,8 @@ class Game:
         so when reset u can do self.drawable_tiles = self.alltiles
         3. ok
         """
-        Player.empty_hand()
+        for player in self.players.values():
+            self.players[player_wind].empty_hand()
         self.played_tiles.clear()
         self.drawable_tiles = self.alltiles
     
@@ -104,6 +105,7 @@ class Game:
         pass
     def reaarange(self):
         pass
+    
     def deal(self,starting_wind): 
         ## deals tiles 
         ## if start wind i.e. player at startingwind => 14, else 13 (#go define player wind)
@@ -130,7 +132,7 @@ class Game:
            
     ## define starting_wind ##rolling dice and shit?
     def player_discard(self, player_wind, idx): #adding to list of played_tiles
-        tile_removed = Player.discard(idx) #TypeError: discard() missing 1 required positional argument: 'idx'
+        tile_removed = self.players[player_wind].discard(idx) #TypeError: discard() missing 1 required positional argument: 'idx'
         for tiles in self.drawable_tiles:   #some shit happened here, idk where wrong, plz help
             if tile_removed not in self.drawable_tiles:
                 self.played_tiles.append(tile_removed)
@@ -161,9 +163,8 @@ class Player:
     def discard(self, idx): # should remove from self.hand
         return self.hand.remove_tile(idx)
     
-    def empty_hand(self, wind):
-        for player in Game.players.values():
-            self.hand.tiles.clear()
+    def empty_hand(self):
+        self.hand.tiles.clear()
 
 
     def isDealer(self): #dice and wind "dice"
@@ -203,7 +204,7 @@ class Hand:
         self.tiles.append(tile)
 
     def remove_tile(self,idx): ## removes tile at idx from self.tiles
-        return self.tile.pop(idx)
+        return self.tiles.pop(idx)
 
     def num_tiles(self): ##return number of tiles in hand
         return len(self.tiles)

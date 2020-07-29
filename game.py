@@ -76,13 +76,12 @@ def test_reset(show=False):
         game.player_discard("N", 0)
     game.player_discard("E", 10)
     game.player_draw("N")
-    game.reset()
+    game.reset()#no idx or player_wind
     if show:
         print(game)
     assert (all(player.hand.num_tiles()==0 for player in game.players.values())), "players don't start with empty hand"
     assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
     print("pass reset")
-
 
 
 if __name__ == "__main__":
