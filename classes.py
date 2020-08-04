@@ -5,13 +5,15 @@ import random
 ###########
 
 # class run:
+# a while loop
+# distribute --> constant check of winning --> player move(draw, action, dsicard)
+# --> end if win (last check)
 ## the procedures of the game (4 circles, 4turns each)
 
-# class Combos: (need constant check)
-##list of all combos after rearranged
-
-# class actions: pong, sheung gong, eat
-## need somewhere to store and show "action"ed tiles
+# class End:
+## show winner
+## show combo and its points
+## if someone wins => Game.reset
 
 # class point counters:
 ## if combo fail => point = 0
@@ -21,15 +23,11 @@ import random
 ## count point according to the combo from combos
 ## etcetc
 
-# class End:
-## show winner
-## show combo and its points
-## if someone wins => Game.reset
-
-#in class Game: set to rearrange the tiles
 
 class Game:
     def __init__(self):
+        #players
+        #list of total tiles, played and unplayed tiles
         self.players = {"E":Player("E"),"S":Player("S"),"W":Player("W"),"N":Player("N")}
         ## creating list of total tiles
         self.stick_tiles =[]
@@ -67,7 +65,7 @@ class Game:
         ## dict or list??? sld be dict {"tile",number of played tiles(0)}
         ## use list coz more direct 
 
-    def reset(self,player_wind):
+    def reset(self):
         """
         3 steps: empty hands, clear played tiles, refill drawable tiles
         ##########
@@ -84,8 +82,9 @@ class Game:
         so when reset u can do self.drawable_tiles = self.alltiles
         3. ok
         """
+        
         for player in self.players.values():
-            self.players[player_wind].empty_hand()
+            player.empty_hand()
         self.played_tiles.clear()
         self.drawable_tiles = self.alltiles
     
@@ -103,8 +102,7 @@ class Game:
         #if win => stay as dealer
         #if lose => E -> S -> W -> N
         pass
-    def reaarange(self):
-        pass
+    
     
     def deal(self,starting_wind): 
         ## deals tiles 
@@ -132,8 +130,8 @@ class Game:
            
     ## define starting_wind ##rolling dice and shit?
     def player_discard(self, player_wind, idx): #adding to list of played_tiles
-        tile_removed = self.players[player_wind].discard(idx) #TypeError: discard() missing 1 required positional argument: 'idx'
-        for tiles in self.drawable_tiles:   #some shit happened here, idk where wrong, plz help
+        tile_removed = self.players[player_wind].discard(idx) 
+        for tiles in self.drawable_tiles:
             if tile_removed not in self.drawable_tiles:
                 self.played_tiles.append(tile_removed)
         return self.played_tiles
@@ -150,7 +148,19 @@ class Game:
             bigstring += str(player)
             bigstring += "\n"
         return bigstring
+    
+    def __eq__(self, other):
+        if self.players.values() == other.players.values():
+            return True
+        else:
+            return False
+        pass
         
+# class move: pong, sheung, gong, eat
+# need somewhere to store and show "action"ed tiles
+class move:
+    def __init__(self):
+        pass
 
 class Player:
     def __init__(self,wind):
@@ -185,8 +195,6 @@ class Player:
 
     def __str__(self):
         return self.wind + "("+str(self.starting_seat_number(self.wind)) + ")" + "\n" + str(self.hand)
-    
-
 class Dice:
     def __init__(self):
         self.value = value
@@ -194,7 +202,28 @@ class Dice:
     def roll(self):
         return random.randint(3, 18)
         
+# class Combos: (need constant check)
+# 
+class Combos:
+    def __init__(self):
+        self.hand = Hand()
+        
+        self.pong
+        self.gong
+        self.sheung
+        self.eat
 
+    def isPong(self): #return true
+        pass
+
+    def isGong(self): #return true
+        pass
+    
+    def isSheung(self): #return true
+        pass
+
+    def isEat(self): #return true
+        pass
 
 class Hand:
     def __init__(self):
@@ -209,7 +238,61 @@ class Hand:
     def num_tiles(self): ##return number of tiles in hand
         return len(self.tiles)
 
+    # stick(s) --> circle(c) --> Marn(m) --> Wind --> Dragon
+    # csm => numerical order (num)
+    # Wind E --> S --> W --> N
+    # Dragon 
+    def reaarange(self):
+        pass
+    
+    def isWind(self): #identifying wind tiles 
+        if Tile.type == "w":
+            if Tile.value < 5:
+                return True  
+        return False
 
+    def isDragon(self): #identifying dragon tiles
+        if Tile.type == "w":
+            if Tile.value > 4:
+                return True
+        return False
+
+    def isNum(self):
+        if self.isDragon() and self.isWind() is False:
+            return True
+        return False
+        
+    #add discarded tile from other players to the list  
+    #BUT do not include in the shown player list
+
+    def isPong(self): #return true
+        #for each tile: check if there are 2 more equal tiles
+        for i in self.tiles:
+            for o in self.tiles: 
+                if i==o:
+                    for e in self.tiles:
+                        if o == e:
+                            return True
+                        return False
+                return False
+    pass
+
+    #add discarded tile and drew tile from other players to the list
+
+    def isGong(self): #return true
+        #for isPong, find one more tile that is eqial
+        if self.isPong is True:
+            for
+        pass
+    
+    def isSheung(self): #return true
+        #
+        pass
+
+    def isEat(self): #return true
+        #
+        pass
+    
     def __str__(self):
         idx_string = ""
         tile_string = ""
@@ -235,7 +318,7 @@ class Tile:
         Parameters:
         -------------
         type : str
-            stick (s), circle (c), million(m), words(w), #Flowers (f)
+            stick (s), circle (c), marn(m), words(w), #Flowers (f)
 
         value: int
             normal: 1-9
@@ -273,19 +356,7 @@ class Tile:
         else:
             return "{}{}".format(self.value, self.type)
 
-    
-    def isWind(self): #identifying wind tiles 
-        if self.type == "w":
-            if self.value < 5:
-                return True  
-        return False
-
-    def isDragon(self): #identifying dragon tiles
-        if self.type == "w":
-            if self.value > 4:
-                return True
-        return False
-        
+    #these stuff in Hand?
     def isFlower(self):
         if self.type == "fa":
             return True

@@ -83,10 +83,30 @@ def test_reset(show=False):
     assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
     print("pass reset")
 
+##Continue
+def test_pong(show=False):
+    pass
 
-if __name__ == "__main__":
-    test_deal(True)
-### call functions above to test put show=True to print
+def test_gong(show = False):
+    pass
+
+def test_sheung(show = False):
+    pass
+
+def test_eat(show=False):
+    pass
+
+def test_pointcounter(show=False):
+    pass
+
+def test_player_move(show=False):
+    pass
+
+def test_game_run(show=False):
+    pass
+
+
+
 
 
     
