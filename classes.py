@@ -9,6 +9,8 @@ import random
 # distribute --> constant check of winning --> player move(draw, action, dsicard)
 # --> end if win (last check)
 ## the procedures of the game (4 circles, 4turns each)
+## transitions after end game: show winner, count points, reset, distribute
+
 
 # class End:
 ## show winner
@@ -105,7 +107,6 @@ class Game:
     
     
     def deal(self,starting_wind): 
-        ## deals tiles 
         ## if start wind i.e. player at startingwind => 14, else 13 (#go define player wind)
         for i in self.players.values():
             if i.wind == starting_wind:
@@ -115,6 +116,78 @@ class Game:
                 for tiles_dis in range(13):
                     self.player_draw(i.wind)
 
+    def rigged_deal2(self, starting_wind, next_wind):
+        for i in self.players.values():
+            if i.wind == starting_wind:
+                self.rigged_player_draw2(starting_wind)
+                for tiles_dis in range (12):
+                    self.player_draw(starting_wind)
+            elif i.wind == next_wind:
+                self.rigged_player_draw2(next_wind)
+                for tiles_dis in range (11):
+                    self.player_draw(next_wind)
+            else:
+                for tiles_dis in range(13):
+                    self.player_draw(i.wind)
+        pass
+
+    def rigged_deal3(self, starting_wind):
+        for i in self.players.values():
+            if i.wind == starting_wind:
+                self.rigged_player_draw_Gong(starting_winf)
+                for tiles_dis in range (11):
+                    self.player_draw(starting_wind)
+            else:
+                for tiles_dis in range(13):
+                    self.player_draw(i.wind)
+        pass
+
+    def rigged_player_draw2(self, player_wind): #test shueng and pong
+        print("Choose two tiles to be in the starting deal \n ")
+        print("Tile 1 Type:") 
+        chosen_type1 = input() #str
+        print("\n Tile 1 value:")
+        chosen_value1 = input() #str
+        print("\n Tile 2 type:")
+        chosen_type2 = input() #str
+        print("\n Tile 2 value:")
+        chosen_value2 = input() #str
+
+        tile1 = Tile(chosen_type1, int(chosen_value1))
+        tile2 = Tile(chosen_type2, int(chosen_value2))
+
+        self.drawable_tiles.remove(tile1)
+        self.players[player_wind].draw(tile1)
+
+        self.drawable_tiles.remove(tile2)
+        self.players[player_wind].draw(tile2)
+
+        pass
+
+
+    def rigged_player_draw_Gong(self, player_wind): #test gong
+        print("Choose the tile to be picked thrice \n ")
+        
+        print("Tile Type:") 
+        chosen_type = input() #str
+        print("\n Tile value:")
+        chosen_value = input() #str
+        
+        tile1 = Tile(chosen_type, int(chosen_value))
+        tile2 = Tile(chosen_type, int(chosen_value))
+        tile3 = Tile(chosen_type, int(chosen_value))
+        
+        self.drawable_tiles.remove(tile1)
+        self.players[player_wind].draw(tile1)
+
+        self.drawable_tiles.remove(tile2)
+        self.players[player_wind].draw(tile2)
+
+        self.drawable_tiles.remove(tile3)
+        self.players[player_wind].draw(tile3)
+
+        # pong / gong need 
+        pass
     
     def player_draw(self,player_wind):
         picked_tile = self.pick_tile()
@@ -128,7 +201,10 @@ class Game:
            #see if win pos = value of flower or season tile
            #true then add points
            
-    ## define starting_wind ##rolling dice and shit?
+    def tile_removed(self, player_wind,idx):
+        return self.players[player_wind].discard(idx)
+        
+         
     def player_discard(self, player_wind, idx): #adding to list of played_tiles
         tile_removed = self.players[player_wind].discard(idx) 
         for tiles in self.drawable_tiles:
@@ -228,6 +304,7 @@ class Combos:
 class Hand:
     def __init__(self):
         self.tiles = []
+        
 
     def add_tile(self,tile): ## add tile to self.tiles
         self.tiles.append(tile)
@@ -266,37 +343,44 @@ class Hand:
     #BUT do not include in the shown player list
 
     def isPong(self): #return true
+        game = Game()
+        removed_tile = game.tile_removed(player_wind, idx)
         #for each tile: check if there are 2 more equal tiles
-        for i in self.tiles:
-            for o in self.tiles: 
-                if i==o:
-                    for e in self.tiles:
-                        if o == e:
-                            return True
-                        return False
+        for tile in self.tiles:
+            if self.tiles.count(tile) == 2:
+                if tile == removed_tile:
+                   return True
                 return False
-    pass
+            return False
 
     #add discarded tile and drew tile from other players to the list
 
-    def isGong(self): #return true
-        #for isPong, find one more tile that is eqial
-        if self.isPong is True:
-            for
-        pass
-    
-    def isSheung(self): #return true
-        #
-        pass
+    def isGong(self): 
+        game = Game()
+        removed_tile = game.tile_removed(player_wind, idx)
+        #for each tile: check if there are 2 more equal tiles
+        for tile in self.tiles:
+            if self.tiles.count(tile) == 3:
+                if tile == removed_tile:
+                   return True
+                return False
+            return False
 
-    def isEat(self): #return true
-        #
-        pass
+    
+    
+    # def isSheung(self): #return true
+    #     #
+    # pass
+
+    # def isEat(self): #return true
+    #     #
+    # pass
     
     def __str__(self):
         idx_string = ""
         tile_string = ""
         count = 0
+        #self.tiles.sort()
         for tile in self.tiles:
             idx_string += "{:^6}|".format(count+1)
             tile_string += "{:^6}|".format(str(tile))

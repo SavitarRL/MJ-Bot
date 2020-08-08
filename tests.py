@@ -76,7 +76,7 @@ def test_reset(show=False):
         game.player_discard("N", 0)
     game.player_discard("E", 10)
     game.player_draw("N")
-    game.reset()#no idx or player_wind
+    game.reset()
     if show:
         print(game)
     assert (all(player.hand.num_tiles()==0 for player in game.players.values())), "players don't start with empty hand"
@@ -84,10 +84,46 @@ def test_reset(show=False):
     print("pass reset")
 
 ##Continue
-def test_pong(show=False):
+def test_isPong(show=False):
+    #testing pong: west to north
+    # west da bei north
+    # north pong
+    # if success --> pass
+    game = Game()
+    ## test deal
+    ## rig the deal
+    game.rigged_deal2("W")
+    game.player_discard("S", 10)
+    for i in range(13):
+        game.player_discard("N", 0)
+    game.player_discard("E", 10)
+    game.player_draw("N")
+    game.reset()
+    if show:
+        print(game)
+    assert (all(player.hand.num_tiles()==0 for player in game.players.values())), "players don't start with empty hand"
+    assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
+    print("pass isPong")
     pass
 
 def test_gong(show = False):
+     #testing pong: west to north
+    # west 
+    game = Game()
+    ## test deal
+    ## rig the deal
+    game.deal("W")
+    game.player_discard("S", 10)
+    for i in range(13):
+        game.player_discard("N", 0)
+    game.player_discard("E", 10)
+    game.player_draw("N")
+    game.reset()
+    if show:
+        print(game)
+    assert (all(player.hand.num_tiles()==0 for player in game.players.values())), "players don't start with empty hand"
+    assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
+    print("pass isPong")
     pass
 
 def test_sheung(show = False):
@@ -106,7 +142,8 @@ def test_game_run(show=False):
     pass
 
 
-
+if __name__ == "__main__":
+    test_discard()
 
 
     
