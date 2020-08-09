@@ -134,15 +134,15 @@ class Game:
 
 
     def rigged_deal2(self, starting_wind, next_wind):
+        #call rigged draw function once only
         for i in self.players.values():
             if i.wind == starting_wind:
-                self.rigged_player_draw(starting_wind) #East
-                self.rigged_player_draw(starting_wind)
+                self.rigged_player_draw2(starting_wind) #East
                 for tiles_dis in range (12):
                     self.player_draw(starting_wind)
             
             elif i.wind == next_wind: 
-                self.rigged_player_draw(next_wind) #South
+                self.rigged_nxt_draw1(next_wind) #South
                 for tiles_dis in range (11):
                     self.player_draw(next_wind)
             
@@ -154,14 +154,12 @@ class Game:
     def rigged_deal3(self, starting_wind, next_wind):
         for i in self.players.values():
             if i.wind == starting_wind:
-                for x in range(3):
-                    self.rigged_player_draw(starting_wind) #East
-                
+                self.rigged_player_draw3(starting_wind) #East
                 for tiles_dis in range (11):
                     self.player_draw(starting_wind)
             
             elif i.wind == next_wind: #South
-                self.rigged_player_draw(next_wind)
+                self.rigged_player_draw1(next_wind)
                 for tiles_dis in range (12):
                     self.player_draw(next_wind)
             
@@ -170,25 +168,31 @@ class Game:
                     self.player_draw(i.wind)
     
     def rigged_choice(self):
-        
-        print("Choose two tiles to be in the starting deal \n ")
+        print("Choose a tile to be duplicated in the starting deal \n ")
         print("Tile 1 Type:") 
         chosen_type1 = input() #str
         print("\n Tile 1 value:")
         chosen_value1 = input() #str
-        # print("\n Tile 2 type:")
-        # chosen_type2 = input() #str
-        # print("\n Tile 2 value:")
-        # chosen_value2 = input() #str
-
         tile1 = Tile(chosen_type1, int(chosen_value1))
         return tile1
 
-    
-    def rigged_player_draw(self, player_wind): #test shueng and pong
-        
-        tile_chose = self.rigged_choice()
-        self.drawable_tiles.remove(tile_chose)
+    def rigged_nxt_draw1(self, player_wind):
+        tile_next = self.rigged_choice()
+        self.drawable_tiles.remove(tile_next)
+
+    def rigged_player_draw2(self, player_wind): #test shueng and pong
+        tile_chose1 = self.rigged_choice()
+        tile_chose2 = tile_chose1
+        self.drawable_tiles.remove(tile_chose1)
+        self.drawable_tiles.remove(tile_chose2)
+
+    def rigged_player_draw3(self, player_wind): #test shueng and pong
+        tile_chose1 = self.rigged_choice()
+        tile_chose2 = tile_chose1
+        tile_chose3 = tile_chose2
+        self.drawable_tiles.remove(tile_chose1)
+        self.drawable_tiles.remove(tile_chose2)
+        self.drawable_tiles.remove(tile_chose3)
 
         
 

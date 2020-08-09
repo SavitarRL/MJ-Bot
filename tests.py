@@ -97,25 +97,33 @@ def test_rdeal(show=False):
     start_handtiles = game.players["E"].hand.tiles
     nxt_handtiles = game.players["S"].hand.tiles
     
-    if ans == 2:
+    if ans == "2":
         game.rigged_deal2("E", "S")
         #test rigged stuff
-        assert (game.rigged_choice() == dup_tile for dup_tile in start_handtiles if start_handtiles.count() == 2), "Tile of starting wind does not have two of a kind"
-        assert (game.rigged_choice() == sgl_tile for sgl_tile in nxt_handtiles == dup_tile), "Tile of the next wind does not have the kind chosen"
+        for dup_tile in start_handtiles:
+            if start_handtiles.count(dup_tile) == 2:
+                THE_tile = dup_tile 
+        assert (game.rigged_choice() == dup_tile for dup_tile in start_handtiles if start_handtiles.count(dup_tile) == 2), "Tile of starting wind does not have two of a kind"
+        # assert (game.rigged_choice() == sgl_tile for sgl_tile in nxt_handtiles == THE_tile), "Tile of the next wind does not have the kind chosen"
+        # can be ommited because zi gei set jor
+        assert (game.players["E"].hand.num_tiles()==14), "starting wind doesn't have 14 tiles"
+        assert (game.players[i].hand.num_tiles()==13 for i in ["N","S","E"]), "non-starting wind doesn't have 13 tiles"
+        assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
         print("pass rigged_deal 2")
 
-    elif ans == 3:
+    elif ans == "3":
         game.rigged_deal3("E","S")
         assert (game.rigged_choice() != dup_tile for dup_tile in start_handtiles if start_handtiles.count() == 3), "Tile of starting wind does not have two of a kind"
         assert (game.rigged_choice() != sgl_tile for sgl_tile in nxt_handtiles == dup_tile), "Tile of the next wind does not have the kind chosen"
+        assert (game.players["E"].hand.num_tiles()==14), "starting wind doesn't have 14 tiles"
+        assert (game.players[i].hand.num_tiles()==13 for i in ["N","S","E"]), "non-starting wind doesn't have 13 tiles"
+        assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
+
         print("pass rigged_deal 3")
     else: 
         print("Try again")
     
-    assert (game.players["E"].hand.num_tiles()==14), "starting wind doesn't have 14 tiles"
-    assert (game.players[i].hand.num_tiles()==13 for i in ["N","S","E"]), "non-starting wind doesn't have 13 tiles"
-    assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
-
+    
     # AssertionError: starting wind doesn't have 14 tiles
 
     
@@ -183,8 +191,8 @@ def test_game_run(show=False):
     pass
 
 
-if __name__ == "__main__":
-    test_discard()
+# if __name__ == "__main__":
+#     test_discard()
 
 
     
