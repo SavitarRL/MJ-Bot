@@ -116,78 +116,96 @@ class Game:
                 for tiles_dis in range(13):
                     self.player_draw(i.wind)
 
+    # def rigged_deal(self, starting_wind, next_wind):
+    #     while i < 1:
+    #         print("Choose (2 or 3) of the same")
+    #         y = input()
+    #         if y == 2:
+    #             for x in range():
+    #                 if i.wind == starting_wind:
+
+
+    #         elif y == 3:
+    #             for x in range(y):
+
+    #         else:
+    #             break
+
+
+
     def rigged_deal2(self, starting_wind, next_wind):
         for i in self.players.values():
             if i.wind == starting_wind:
-                self.rigged_player_draw2(starting_wind)
+                self.rigged_player_draw(starting_wind) #East
+                self.rigged_player_draw(starting_wind)
                 for tiles_dis in range (12):
                     self.player_draw(starting_wind)
-            elif i.wind == next_wind:
-                self.rigged_player_draw2(next_wind)
+            
+            elif i.wind == next_wind: 
+                self.rigged_player_draw(next_wind) #South
                 for tiles_dis in range (11):
                     self.player_draw(next_wind)
+            
             else:
                 for tiles_dis in range(13):
                     self.player_draw(i.wind)
-        pass
 
-    def rigged_deal3(self, starting_wind):
+
+    def rigged_deal3(self, starting_wind, next_wind):
         for i in self.players.values():
             if i.wind == starting_wind:
-                self.rigged_player_draw_Gong(starting_winf)
+                for x in range(3):
+                    self.rigged_player_draw(starting_wind) #East
+                
                 for tiles_dis in range (11):
                     self.player_draw(starting_wind)
+            
+            elif i.wind == next_wind: #South
+                self.rigged_player_draw(next_wind)
+                for tiles_dis in range (12):
+                    self.player_draw(next_wind)
+            
             else:
                 for tiles_dis in range(13):
                     self.player_draw(i.wind)
-        pass
-
-    def rigged_player_draw2(self, player_wind): #test shueng and pong
+    
+    def rigged_choice(self):
+        
         print("Choose two tiles to be in the starting deal \n ")
         print("Tile 1 Type:") 
         chosen_type1 = input() #str
         print("\n Tile 1 value:")
         chosen_value1 = input() #str
-        print("\n Tile 2 type:")
-        chosen_type2 = input() #str
-        print("\n Tile 2 value:")
-        chosen_value2 = input() #str
+        # print("\n Tile 2 type:")
+        # chosen_type2 = input() #str
+        # print("\n Tile 2 value:")
+        # chosen_value2 = input() #str
 
         tile1 = Tile(chosen_type1, int(chosen_value1))
-        tile2 = Tile(chosen_type2, int(chosen_value2))
+        return tile1
 
-        self.drawable_tiles.remove(tile1)
-        self.players[player_wind].draw(tile1)
-
-        self.drawable_tiles.remove(tile2)
-        self.players[player_wind].draw(tile2)
-
-        pass
-
-
-    def rigged_player_draw_Gong(self, player_wind): #test gong
-        print("Choose the tile to be picked thrice \n ")
+    
+    def rigged_player_draw(self, player_wind): #test shueng and pong
         
-        print("Tile Type:") 
-        chosen_type = input() #str
-        print("\n Tile value:")
-        chosen_value = input() #str
-        
-        tile1 = Tile(chosen_type, int(chosen_value))
-        tile2 = Tile(chosen_type, int(chosen_value))
-        tile3 = Tile(chosen_type, int(chosen_value))
-        
-        self.drawable_tiles.remove(tile1)
-        self.players[player_wind].draw(tile1)
+        tile_chose = self.rigged_choice()
+        self.drawable_tiles.remove(tile_chose)
 
-        self.drawable_tiles.remove(tile2)
-        self.players[player_wind].draw(tile2)
+        
 
-        self.drawable_tiles.remove(tile3)
-        self.players[player_wind].draw(tile3)
+        # self.drawable_tiles.remove(tile2)
+        # self.players[player_wind].draw(tile2)
+        # tile2 = Tile(chosen_type1, int(chosen_value1)
+
+
+
+    # def rigged_player_draw_Gong(self, player_wind): #test gong
+    #     gong_tile = self.rigged_choice()
+    #     for i in range(3):
+    #         self.drawable_tiles.remove(gong_tile)
+    #         self.players[player_wind].draw(gong_tile)
 
         # pong / gong need 
-        pass
+
     
     def player_draw(self,player_wind):
         picked_tile = self.pick_tile()

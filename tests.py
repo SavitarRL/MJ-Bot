@@ -84,15 +84,56 @@ def test_reset(show=False):
     print("pass reset")
 
 ##Continue
+
+def test_rdeal(show=False):
+    game = Game()
+    hand = Hand()
+    ## test rigged deal (starting_wind, next_wind)
+    ## east is starting, next is south
+    print("test 2 or 3")
+    ans = input()
+    if show: #if show == True: print game
+        print(game)
+    start_handtiles = game.players["E"].hand.tiles
+    nxt_handtiles = game.players["S"].hand.tiles
+    
+    if ans == 2:
+        game.rigged_deal2("E", "S")
+        #test rigged stuff
+        assert (game.rigged_choice() == dup_tile for dup_tile in start_handtiles if start_handtiles.count() == 2), "Tile of starting wind does not have two of a kind"
+        assert (game.rigged_choice() == sgl_tile for sgl_tile in nxt_handtiles == dup_tile), "Tile of the next wind does not have the kind chosen"
+        print("pass rigged_deal 2")
+
+    elif ans == 3:
+        game.rigged_deal3("E","S")
+        assert (game.rigged_choice() != dup_tile for dup_tile in start_handtiles if start_handtiles.count() == 3), "Tile of starting wind does not have two of a kind"
+        assert (game.rigged_choice() != sgl_tile for sgl_tile in nxt_handtiles == dup_tile), "Tile of the next wind does not have the kind chosen"
+        print("pass rigged_deal 3")
+    else: 
+        print("Try again")
+    
+    assert (game.players["E"].hand.num_tiles()==14), "starting wind doesn't have 14 tiles"
+    assert (game.players[i].hand.num_tiles()==13 for i in ["N","S","E"]), "non-starting wind doesn't have 13 tiles"
+    assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
+
+    # AssertionError: starting wind doesn't have 14 tiles
+
+    
+    
+    
+    
+    
 def test_isPong(show=False):
-    #testing pong: west to north
-    # west da bei north
-    # north pong
+    #testing pong:
+    # east bei south
+    # south pong
+    #another case:
+    # south bei north; north pong
     # if success --> pass
     game = Game()
     ## test deal
     ## rig the deal
-    game.rigged_deal2("W")
+    game.rigged_deal("W")
     game.player_discard("S", 10)
     for i in range(13):
         game.player_discard("N", 0)

@@ -1,6 +1,6 @@
 from classes import *
-from test import *
+from tests import *
 
 if __name__ == "__main__":
-    test_deal(True)
+    test_rdeal()
 ### call functions above to test put show=True to print
