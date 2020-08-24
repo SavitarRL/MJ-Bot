@@ -57,7 +57,8 @@ class Game:
         #    self.fa_tiles.append(Tile("fa"), value)
 
         self.alltiles = self.stick_tiles + self.circle_tiles + self.million_tiles +self.word_tiles #+self.seas_tiles +self.fa_tiles
-        self.drawable_tiles = self.stick_tiles + self.circle_tiles + self.million_tiles +self.word_tiles #+self.seas_tiles +self.fa_tiles
+        self.drawable_tiles = self.stick_tiles + self.circle_tiles + self.million_tiles +self.word_tiles 
+                                                                            #+self.seas_tiles +self.fa_tiles
                                                                             ## {"tile", number of tiles(136)}
                                                                             ## when drawing from drawable_tiles to player_tiles: --> drawable_tile - 1; player_tiles + 1
                                                                             ## when player_discard: --> player_tiles - 1; played_tiles + 1
@@ -116,33 +117,17 @@ class Game:
                 for tiles_dis in range(13):
                     self.player_draw(i.wind)
 
-    # def rigged_deal(self, starting_wind, next_wind):
-    #     while i < 1:
-    #         print("Choose (2 or 3) of the same")
-    #         y = input()
-    #         if y == 2:
-    #             for x in range():
-    #                 if i.wind == starting_wind:
-
-
-    #         elif y == 3:
-    #             for x in range(y):
-
-    #         else:
-    #             break
-
-
 
     def rigged_deal2(self, starting_wind, next_wind):
         #call rigged draw function once only
         for i in self.players.values():
             if i.wind == starting_wind:
-                self.rigged_player_draw2(starting_wind) #East
-                for tiles_dis in range (12):
-                    self.player_draw(starting_wind)
+                self.rigged_nxt_draw1(starting_wind) #east
+                for tiles_dis in range (13):
+                    self.player_draw(starting_wind) 
             
             elif i.wind == next_wind: 
-                self.rigged_nxt_draw1(next_wind) #South
+                self.rigged_player_draw2(next_wind) #south
                 for tiles_dis in range (11):
                     self.player_draw(next_wind)
             
@@ -154,13 +139,13 @@ class Game:
     def rigged_deal3(self, starting_wind, next_wind):
         for i in self.players.values():
             if i.wind == starting_wind:
-                self.rigged_player_draw3(starting_wind) #East
-                for tiles_dis in range (11):
+                self.rigged_nxt_draw1(starting_wind)#East
+                for tiles_dis in range (13):
                     self.player_draw(starting_wind)
             
             elif i.wind == next_wind: #South
-                self.rigged_player_draw1(next_wind)
-                for tiles_dis in range (12):
+                self.rigged_player_draw3(next_wind) 
+                for tiles_dis in range (10):
                     self.player_draw(next_wind)
             
             else:
@@ -168,67 +153,45 @@ class Game:
                     self.player_draw(i.wind)
     
     def rigged_choice(self):
-        print("Choose a tile to be duplicated in the starting deal \n ")
-        print("Tile 1 Type:") 
-        chosen_type1 = input() #str
-        print("\n Tile 1 value:")
-        chosen_value1 = input() #str
-        tile1 = Tile(chosen_type1, int(chosen_value1))
+        print("Choose a tile to be duplicated in the starting deal")
+        chosen_type1 = str(input("Tile 1 Type: ")) #str
+        chosen_value1 = int(input("Tile 1 value: ")) #int
+        tile1 = Tile(chosen_type1, chosen_value1)
         return tile1
 
     def rigged_nxt_draw1(self, player_wind):
         tile_next = self.rigged_choice()
+        self.players[player_wind].draw(tile_next)
         self.drawable_tiles.remove(tile_next)
-
+    
     def rigged_player_draw2(self, player_wind): #test shueng and pong
-        tile_chose1 = self.rigged_choice()
-        tile_chose2 = tile_chose1
-        self.drawable_tiles.remove(tile_chose1)
-        self.drawable_tiles.remove(tile_chose2)
+        tile_choice = self.rigged_choice()
+        for i in range(2):
+            self.players[player_wind].draw(tile_choice)
+            self.drawable_tiles.remove(tile_choice)
 
     def rigged_player_draw3(self, player_wind): #test shueng and pong
-        tile_chose1 = self.rigged_choice()
-        tile_chose2 = tile_chose1
-        tile_chose3 = tile_chose2
-        self.drawable_tiles.remove(tile_chose1)
-        self.drawable_tiles.remove(tile_chose2)
-        self.drawable_tiles.remove(tile_chose3)
-
-        
-
-        # self.drawable_tiles.remove(tile2)
-        # self.players[player_wind].draw(tile2)
-        # tile2 = Tile(chosen_type1, int(chosen_value1)
+        tile_chosen = self.rigged_choice()
+        for i in range(3): 
+            self.players[player_wind].draw(tile_chosen)
+            self.drawable_tiles.remove(tile_chosen)
 
 
-
-    # def rigged_player_draw_Gong(self, player_wind): #test gong
-    #     gong_tile = self.rigged_choice()
-    #     for i in range(3):
-    #         self.drawable_tiles.remove(gong_tile)
-    #         self.players[player_wind].draw(gong_tile)
-
-        # pong / gong need 
-
-    
     def player_draw(self,player_wind):
         picked_tile = self.pick_tile()
-        self.drawable_tiles.remove(picked_tile)
         self.players[player_wind].draw(picked_tile)
-        ## player draws a tile from drawable tiles
-        ## return picked tile to that player only?
-
+        self.drawable_tiles.remove(picked_tile)
 
         #if picked_tile.isFlower or picked_tile.isSeason:
            #see if win pos = value of flower or season tile
            #true then add points
            
-    def tile_removed(self, player_wind,idx):
+    def tile_removed(self, player_wind, idx):
         return self.players[player_wind].discard(idx)
         
          
     def player_discard(self, player_wind, idx): #adding to list of played_tiles
-        tile_removed = self.players[player_wind].discard(idx) 
+        tile_removed = self.players[player_wind].discard(idx) #self.tile_removed(player_wind, idx) 
         for tiles in self.drawable_tiles:
             if tile_removed not in self.drawable_tiles:
                 self.played_tiles.append(tile_removed)
