@@ -98,9 +98,15 @@ class Game:
     def pick_tile(self):
         picked_tile = random.choice(self.drawable_tiles)
         return picked_tile
-        ## returns a random/top tile from derawable
-        ## use this in deal
-
+    
+    def pick_tile_wo_thetile(self):
+        picked_tile = random.choice(self.drawable_tiles)
+        thetile = self.rigged_choice()
+        if picked_tile == thetile:
+            pass
+        else:
+            return picked_tile
+            
     def isStarting_wind(self):
         #if win => stay as dealer
         #if lose => E -> S -> W -> N
@@ -141,7 +147,7 @@ class Game:
             if i.wind == starting_wind:
                 self.rigged_nxt_draw1(starting_wind)#East
                 for tiles_dis in range (13):
-                    self.player_draw(starting_wind)
+                    self.player_draw_wo_thetile(starting_wind)
             
             elif i.wind == next_wind: #South
                 self.rigged_player_draw3(next_wind) 
@@ -153,10 +159,10 @@ class Game:
                     self.player_draw(i.wind)
     
     def rigged_choice(self):
-        print("Choose a tile to be duplicated in the starting deal")
-        chosen_type1 = str(input("Tile 1 Type: ")) #str
-        chosen_value1 = int(input("Tile 1 value: ")) #int
-        tile1 = Tile(chosen_type1, chosen_value1)
+        # print("Choose a tile to be duplicated in the starting deal")
+        # chosen_type1 = str(input("Tile 1 Type: ")) #str
+        # chosen_value1 = int(input("Tile 1 value: ")) #int
+        tile1 = Tile("w",7) #change for others
         return tile1
 
     def rigged_nxt_draw1(self, player_wind):
@@ -176,7 +182,6 @@ class Game:
             self.players[player_wind].draw(tile_chosen)
             self.drawable_tiles.remove(tile_chosen)
 
-
     def player_draw(self,player_wind):
         picked_tile = self.pick_tile()
         self.players[player_wind].draw(picked_tile)
@@ -185,6 +190,11 @@ class Game:
         #if picked_tile.isFlower or picked_tile.isSeason:
            #see if win pos = value of flower or season tile
            #true then add points
+    
+    def player_draw_wo_thetile(self, player_wind):
+        pick_tile = self.pick_tile_wo_thetile()
+        self.players[player_wind].draw(pick_tile)
+        self.drawable_tiles.remove(pick_tile)
            
     def tile_removed(self, player_wind, idx):
         return self.players[player_wind].discard(idx)
@@ -219,7 +229,7 @@ class Game:
         
 # class move: pong, sheung, gong, eat
 # need somewhere to store and show "action"ed tiles
-class move:
+class Move:
     def __init__(self):
         pass
 

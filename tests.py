@@ -83,13 +83,13 @@ def test_reset(show=False):
     assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
     print("pass reset")
 
-##Continue
-
+#test rigged deal
 def test_rdeal(show=False):
     game = Game()
     hand = Hand()
     ## test rigged deal (starting_wind, next_wind)
     ## east is starting, next is south
+    ## game.rigged_choice() = 9c (can change to white)
     ans = input("test 2 or 3: ")
     
     start_handtiles = game.players["E"].hand.tiles
@@ -132,49 +132,57 @@ def test_rdeal(show=False):
     else: 
         print("Try again")
     
-    
+#test isPong
 def test_isPong(show=False):
-    #testing pong:
-    # east bei south
+    game = Game()
+    hand = Hand()
+    # east bei south c9x3
     # south pong
     #another case:
     # south bei north; north pong
     # if success --> pass
-    game = Game()
-    ## test deal
-    ## rig the deal
-    game.rigged_deal("W")
-    game.player_discard("S", 10)
-    for i in range(13):
-        game.player_discard("N", 0)
+    start_handtiles = game.players["E"].hand.tiles
+    nxt_handtiles = game.players["S"].hand.tiles
+    game.rigged_deal2("E", "S")
     game.player_discard("E", 10)
-    game.player_draw("N")
-    game.reset()
+    
     if show:
         print(game)
-    assert (all(player.hand.num_tiles()==0 for player in game.players.values())), "players don't start with empty hand"
-    assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
+    #tests 
+    # 1. start player remove has 13 cards
+    assert (game.players["E"].hand.num_tiles()==13), "starting wind doesn't have 13 tiles"
+    # 2. da yuen all players can have that card (everyone has 14) 
+    assert (game.players[i].hand.num_tiles()==14 for i in ["N","S","E"]), "non-starting wind doesn't have 14 tiles"
+    # 3. no draw => remaining tiles = 83
+    assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
+    # 4. if removed tile + hand.tiles = 3 --> pass isPong
+    
+    
     print("pass isPong")
     pass
 
 def test_gong(show = False):
-     #testing pong: west to north
-    # west 
     game = Game()
-    ## test deal
-    ## rig the deal
-    game.deal("W")
-    game.player_discard("S", 10)
-    for i in range(13):
-        game.player_discard("N", 0)
+    hand = Hand()
+    # east bei south c9x4
+    # south pong
+    #another case:
+    # south bei north; north pong
+    # if success --> pass
+    start_handtiles = game.players["E"].hand.tiles
+    nxt_handtiles = game.players["S"].hand.tiles
+    game.rigged_deal3("E", "S")
     game.player_discard("E", 10)
-    game.player_draw("N")
-    game.reset()
     if show:
         print(game)
-    assert (all(player.hand.num_tiles()==0 for player in game.players.values())), "players don't start with empty hand"
-    assert (game.num_tiles_left()==136), "Reminaing tiles is not 136 tiles or num_tiles_left() not implemented"
-    print("pass isPong")
+    #tests 
+    # 1. start player remove has 13 cards
+    assert (game.players["E"].hand.num_tiles()==13), "starting wind doesn't have 13 tiles"
+    # 2. da yuen all players can have that card (everyone has 14) 
+    assert (game.players[i].hand.num_tiles()==14 for i in ["N","S","E"]), "non-starting wind doesn't have 14 tiles"
+    # 3. no draw => remaining tiles = 83
+    assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
+    # 4. if removed tile + hand.tiles = 4 --> pass isGong
     pass
 
 def test_sheung(show = False):
