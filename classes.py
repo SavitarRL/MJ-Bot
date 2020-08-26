@@ -11,7 +11,6 @@ import random
 ## the procedures of the game (4 circles, 4turns each)
 ## transitions after end game: show winner, count points, reset, distribute
 
-
 # class End:
 ## show winner
 ## show combo and its points
@@ -64,6 +63,7 @@ class Game:
                                                                             ## when player_discard: --> player_tiles - 1; played_tiles + 1
                                                                             ### drawable_tiles + played_tiles = 136
         self.played_tiles = []
+        self.needause_tiles = [] #for unused tiles
 
         ## dict or list??? sld be dict {"tile",number of played tiles(0)}
         ## use list coz more direct 
@@ -112,7 +112,6 @@ class Game:
         #if lose => E -> S -> W -> N
         pass
     
-    
     def deal(self,starting_wind): 
         ## if start wind i.e. player at startingwind => 14, else 13 (#go define player wind)
         for i in self.players.values():
@@ -122,7 +121,6 @@ class Game:
             else:
                 for tiles_dis in range(13):
                     self.player_draw(i.wind)
-
 
     def rigged_deal2(self, starting_wind, next_wind):
         #call rigged draw function once only
@@ -140,7 +138,6 @@ class Game:
             else:
                 for tiles_dis in range(13):
                     self.player_draw(i.wind)
-
 
     def rigged_deal3(self, starting_wind, next_wind):
         for i in self.players.values():
@@ -182,6 +179,15 @@ class Game:
             self.players[player_wind].draw(tile_chosen)
             self.drawable_tiles.remove(tile_chosen)
 
+    def rigged_player_discard(self, player_wind, idx):
+        rtile = self.rigged_choice()
+        idx =  self.players[player_wind].hand.tiles.index(rtile)
+        removed_rtile = self.players[player_wind].discard(idx)
+        for tiles in self.drawable_tiles:
+            if removed_rtile not in self.drawable_tiles:
+                self.needause_tiles.append(removed_rtile)
+            return self.needause_tiles
+
     def player_draw(self,player_wind):
         picked_tile = self.pick_tile()
         self.players[player_wind].draw(picked_tile)
@@ -199,7 +205,6 @@ class Game:
     def tile_removed(self, player_wind, idx):
         return self.players[player_wind].discard(idx)
         
-         
     def player_discard(self, player_wind, idx): #adding to list of played_tiles
         tile_removed = self.players[player_wind].discard(idx) #self.tile_removed(player_wind, idx) 
         for tiles in self.drawable_tiles:
@@ -227,11 +232,6 @@ class Game:
             return False
         pass
         
-# class move: pong, sheung, gong, eat
-# need somewhere to store and show "action"ed tiles
-class Move:
-    def __init__(self):
-        pass
 
 class Player:
     def __init__(self,wind):
@@ -243,7 +243,7 @@ class Player:
 
     def discard(self, idx): # should remove from self.hand
         return self.hand.remove_tile(idx)
-    
+
     def empty_hand(self):
         self.hand.tiles.clear()
 
@@ -274,7 +274,6 @@ class Dice:
         return random.randint(3, 18)
         
 # class Combos: (need constant check)
-# 
 class Combos:
     def __init__(self):
         self.hand = Hand()
@@ -294,6 +293,12 @@ class Combos:
         pass
 
     def isEat(self): #return true
+        pass
+
+# class move: pong, sheung, gong, eat
+# need somewhere to store and show "action"ed tiles
+class Move:
+    def __init__(self):
         pass
 
 class Hand:
@@ -339,7 +344,7 @@ class Hand:
 
     def isPong(self): #return true
         game = Game()
-        removed_tile = game.tile_removed(player_wind, idx)
+        removed_tile = self.player_discard
         #for each tile: check if there are 2 more equal tiles
         for tile in self.tiles:
             if self.tiles.count(tile) == 2:
@@ -361,7 +366,6 @@ class Hand:
                 return False
             return False
 
-    
     
     # def isSheung(self): #return true
     #     #

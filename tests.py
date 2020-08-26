@@ -136,7 +136,7 @@ def test_rdeal(show=False):
 def test_isPong(show=False):
     game = Game()
     hand = Hand()
-    # east bei south c9x3
+    # east bei south c9x3 def
     # south pong
     #another case:
     # south bei north; north pong
@@ -144,20 +144,21 @@ def test_isPong(show=False):
     start_handtiles = game.players["E"].hand.tiles
     nxt_handtiles = game.players["S"].hand.tiles
     game.rigged_deal2("E", "S")
-    game.player_discard("E", 10)
-    
+    #tile to remove = game.rigged_choice()
+    rtile = game.rigged_choice()
+    idx =  game.players[player_wind].hand.tiles.index(rtile)
+    game.player_discard("E", idx)
     if show:
         print(game)
     #tests 
     # 1. start player remove has 13 cards
     assert (game.players["E"].hand.num_tiles()==13), "starting wind doesn't have 13 tiles"
-    # 2. da yuen all players can have that card (everyone has 14) 
-    assert (game.players[i].hand.num_tiles()==14 for i in ["N","S","E"]), "non-starting wind doesn't have 14 tiles"
+    # 2. da yuen added to a list, every player can use that card 
+    assert (game.players[i].hand.num_tiles()==13 for i in ["N","S","E"]), "non-starting wind doesn't have 13 tiles"
     # 3. no draw => remaining tiles = 83
     assert (game.num_tiles_left()==83), "Reminaing tiles is not 83 tiles or num_tiles_left() not implemented"
-    # 4. if removed tile + hand.tiles = 3 --> pass isPong
-    
-    
+    # 4. if removed tile in the list + hand.tiles = 3 --> pass isPong
+    assert(game.players["S"].hand.isPong() is True), "isPong Error"
     print("pass isPong")
     pass
 
