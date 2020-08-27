@@ -212,6 +212,12 @@ class Game:
                 self.played_tiles.append(tile_removed)
         return self.played_tiles
     
+    def turn(self):
+        # what happens when a person calls a tile
+        # 
+        # 
+        pass
+
     def num_tiles_left(self): ## give number of tiles ***drawable*** left
         return len(self.drawable_tiles)
 
