@@ -212,12 +212,18 @@ class Game:
                 self.played_tiles.append(tile_removed)
         return self.played_tiles
     
-    def turn(self):
-        # what happens when a person calls a tile
-        # 
-        # 
-        pass
+    def turn(self, player_wind, idx):# what happens when a person plays a tile
+        # check tile 
+        removed_tile = self.tile_removed(player_wind, idx)
+        # for pong/gong/eat: for everyone
 
+        # for sheung: only next player
+        pass
+    def checkeveryone(self):
+        
+        pass
+    def checknext(self):
+        pass
     def num_tiles_left(self): ## give number of tiles ***drawable*** left
         return len(self.drawable_tiles)
 
